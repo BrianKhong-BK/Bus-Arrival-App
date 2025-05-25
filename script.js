@@ -2,17 +2,17 @@ const arrivalListHeader = document.getElementById('tableHead');
 const arrivalList = document.getElementById('tableBody');
 const busStopIdInput = document.getElementById('busStopIdInput');
 const busStopName = document.getElementById('busStopName');
+let map;
+let marker;
 
 async function fetchMapData(lat, long) {
-  var map = L.map('map').setView([lat, long], 17);
-
-  var marker = L.marker([lat, long]).addTo(map);
-
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    map = L.map('map').setView([lat, long], 17);
+    marker = L.marker([lat, long]).addTo(map)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(map);
+    }).addTo(map);
 }
 
 async function fetchBusStopData(busStopId) {
@@ -41,16 +41,20 @@ async function displayArrival() {
   if (busStopIdInput.value.length <= 5 && !regex.test(busStopIdInput.value)) {
     const busData = await fetchBusStopData(busStopIdInput.value);
     const busInfo = await fetchBusStopInfo();
+    const lat = busInfo[busStopIdInput.value][1];
+    const long = busInfo[busStopIdInput.value][0];
     busStopName.innerHTML = '';
     arrivalList.innerHTML = '';
 
     if (busData.hasOwnProperty('response')) {
       console.log(busData.response);
     } else {
-      fetchMapData(
-        busInfo[busStopIdInput.value][1],
-        busInfo[busStopIdInput.value][0]
-      );
+      if (map){
+        map.remove();
+        map = null;
+      }
+      
+      await fetchMapData(lat, long);
       busStopName.innerHTML = busInfo[busStopIdInput.value][2];
       arrivalListHeader.innerHTML = `
         <th>Bus No</th>
@@ -63,7 +67,7 @@ async function displayArrival() {
       <tr>
         <td>${info.bus_no}</td>
         <td>${info.operator}</td>
-        <td>${info.next_bus_mins > 0 ? info.next_bus_mins : 'Arrived'}</td>
+        <td>${info.next_bus_mins > 0 ? `${info.next_bus_mins} minutes` : 'Arrived'}</td>
       </tr>
       `
         )

@@ -29,21 +29,43 @@
     ></script>
   </head>
 
-  <body>
-    <h1>Bus Arrival App</h1>
-    <div style="display: flex; flex-direction: column">
-      <label for="busStopId">Bus Stop ID</label>
-      <input type="text" placeholder="Enter a bus ID" id="busStopIdInput" />
-    </div>
-    <button onclick="displayArrival()">Show Arrival</button>
+  <body style="background-color: rgb(236, 226, 226);">
+    <nav class="navbar" style="background-color: #FF921C;">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Bus Arrival App</span>
+      </div>
+    </nav>
 
-    <div id="map"></div>
-
-    <h1 id="busStopName"></h1>
-    <table>
-      <thead id="tableHead"></thead>
-      <tbody id="tableBody"></tbody>
-    </table>
+    <div class="d-flex flex-column">
+      <label for="busStopIdInput" class="text-center my-3 fs-2">Bus Stop ID</label>
+        <div class="container text-center">
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+            </span>
+            <input type="text" class="form-control" placeholder="Enter a bus stop ID" aria-label="Username" aria-describedby="addon-wrapping" id="busStopIdInput">
+            <button type="button" class="btn btn-outline" style="background-color: #FF921C;" onclick="displayArrival()">Show Arrival</button>
+          </div>
+          
+        </div>
+    </div> 
+    
+    <div class="container my-5"> 
+      <div class="row"> 
+          <div class="col-md-6 col-sm-12">
+            <div id="map"></div>
+          </div> 
+          <div class="col-md-6 col-sm-12">
+            <h1 id="busStopName"></h1>
+            <table class="table table-striped table-bordered fluid" id="table">
+              <thead id="tableHead"></thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div> 
+      </div> 
+    </div> 
     <script src="script.js"></script>
   </body>
 </html>
