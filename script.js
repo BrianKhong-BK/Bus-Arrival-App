@@ -38,13 +38,16 @@ async function fetchBusStopInfo() {
 
 async function displayArrival() {
   const regex = /[A-Za-z]/;
-  if (busStopIdInput.value.length <= 5 && !regex.test(busStopIdInput.value)) {
+  const isFiveNumber = busStopIdInput.value.length <= 5;
+  const isNumber = !regex.test(busStopIdInput.value);
+  const isNotEmpty = busStopIdInput.value.trim().length !== 0;
+
+  console.log(busStopIdInput.value.trim().length)
+  if (isFiveNumber && isNumber && isNotEmpty) {
     const busData = await fetchBusStopData(busStopIdInput.value);
     const busInfo = await fetchBusStopInfo();
     const lat = busInfo[busStopIdInput.value][1];
     const long = busInfo[busStopIdInput.value][0];
-    busStopName.innerHTML = '';
-    arrivalList.innerHTML = '';
 
     if (busData.hasOwnProperty('response')) {
       console.log(busData.response);
@@ -75,7 +78,8 @@ async function displayArrival() {
     }
   } else {
     alert(
-      'Please enter a valid bus stop ID\n-contain only 5 digit\n-does not have any alphabet'
+      'Please enter a valid bus stop ID\n-contain only 5 digit\n-does not have any alphabet\n-not empty'
     );
+    busStopIdInput.value = ""
   }
 }
