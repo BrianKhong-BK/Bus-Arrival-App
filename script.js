@@ -42,16 +42,16 @@ async function displayArrival() {
   const isNumber = !regex.test(busStopIdInput.value);
   const isNotEmpty = busStopIdInput.value.trim().length !== 0;
 
-  console.log(busStopIdInput.value.trim().length)
   if (isFiveNumber && isNumber && isNotEmpty) {
     const busData = await fetchBusStopData(busStopIdInput.value);
     const busInfo = await fetchBusStopInfo();
-    const lat = busInfo[busStopIdInput.value][1];
-    const long = busInfo[busStopIdInput.value][0];
 
     if (busData.hasOwnProperty('response')) {
-      console.log(busData.response);
+      alert(`${busData.response}`);
     } else {
+      const lat = busInfo[busStopIdInput.value][1];
+      const long = busInfo[busStopIdInput.value][0];
+      
       if (map){
         map.remove();
         map = null;
@@ -83,3 +83,4 @@ async function displayArrival() {
     busStopIdInput.value = ""
   }
 }
+
