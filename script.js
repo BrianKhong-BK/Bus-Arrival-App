@@ -60,14 +60,11 @@ function getArrivalData(busData) {
 
 //Main function
 async function displayArrival() {
-
-  const regex = /[A-Za-z]/;
   const isFiveNumber = busStopIdInput.value.length <= 5;
-  const isNumber = !regex.test(busStopIdInput.value);
-  const isNotEmpty = busStopIdInput.value.trim().length !== 0;
+  const isPositive = busStopIdInput.value > 0
 
   //Verify input
-  if (isFiveNumber && isNumber && isNotEmpty) {
+  if (isFiveNumber && isPositive) {
     const busData = await fetchBusStopData(busStopIdInput.value);
     const busInfo = await fetchBusStopInfo();
 
@@ -104,7 +101,7 @@ async function displayArrival() {
     }
   } else {
     alert(
-      'Please enter a valid bus stop ID\n-contain only 5 digit\n-does not have any alphabet\n-not empty'
+      'Please enter a valid bus stop ID\n-contain only 5 digit\n-not negative number'
     );
     busStopIdInput.value = ""
   }
