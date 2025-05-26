@@ -4,6 +4,7 @@ const arrivalList = document.getElementById('tableBody');
 const busStopIdInput = document.getElementById('busStopIdInput');
 const busStopName = document.getElementById('busStopName');
 const busStopID = document.getElementById('busStopID');
+const errorMessage = document.getElementById('errorMessage');
 let map;
 let marker;
 let refreshInterval;
@@ -67,10 +68,10 @@ async function displayArrival() {
   if (isFiveNumber && isPositive) {
     const busData = await fetchBusStopData(busStopIdInput.value);
     const busInfo = await fetchBusStopInfo();
-
+    errorMessage.innerHTML = ""
     //To detect for API response
     if (busData.hasOwnProperty('response')) {
-      alert(`${busData.response}`);
+      errorMessage.innerHTML = busData.response;
     } else {
       const lat = busInfo[busStopIdInput.value][1];
       const long = busInfo[busStopIdInput.value][0];
@@ -99,10 +100,8 @@ async function displayArrival() {
         getArrivalData(busData.services);
       }, 10000);
     }
-  } else {
-    alert(
-      'Please enter a valid bus stop ID\n-contain only 5 digit\n-not negative number'
-    );
+  } else { 
+    errorMessage.innerHTML = `<h5 class="text-center" style="color: red;">Please enter a valid bus stop ID</h5>`
     busStopIdInput.value = ""
   }
 }
