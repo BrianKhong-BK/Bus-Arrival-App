@@ -71,7 +71,7 @@ async function displayArrival() {
     errorMessage.innerHTML = ""
     //To detect for API response
     if (busData.hasOwnProperty('response')) {
-      errorMessage.innerHTML = busData.response;
+      errorMessage.innerHTML = `<h5 class="text-center" style="color: red;">${busData.response}</h5>`;
     } else {
       const lat = busInfo[busStopIdInput.value][1];
       const long = busInfo[busStopIdInput.value][0];
